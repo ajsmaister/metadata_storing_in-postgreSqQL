@@ -11,7 +11,7 @@ class PostgresHandler:
 
 	def __init__(self):
 
-		# instance variables ...
+		# instance variables ...git
 		self.engine = create_engine(self.postgres_url)
 		self.table = tables['metadata_table']
 		self.create_table() # <-- Definitely, this function is always running when the PostgresHandler will be called!

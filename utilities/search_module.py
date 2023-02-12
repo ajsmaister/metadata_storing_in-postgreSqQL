@@ -1,12 +1,17 @@
 
 """
 File Description:
-This file content the web connection, and web operation func. It downloads the metadata of movies, from{url}
+This file content the web connection, and web operation func. It downloads into the PostgreSql database
+the metadata of movies, from image_server_url from {source_code.py} file
 """
+# third party moduls ...
 import tmdbsimple as tmdb
+
+#Developted modules ...
 from urllib.request import urlopen
 from movie_metadata_downloader_in_files.source_code import key, image_server_url
 
+# ----------------------------------------------------------------------------------------------------------------------
 class SearchModule:
 
 	# class atributes:
@@ -15,11 +20,15 @@ class SearchModule:
 
 	def __init__(self, search_obj: tmdb.Search):
 
-		# Creates class object from parameter ...
+		# instance variables ....
 		self.search      = search_obj
 		self.poster_path = None
 
 	def search_movie(self, title):
+		"""
+		:param: title --> It is the movie name.
+		:return: movie_meta data
+		"""
 		movie_meta = self.search.movie(query = title)['results']
 		if not movie_meta:
 			return False
@@ -29,15 +38,15 @@ class SearchModule:
 	def get_image_obj_in_binary(self):
 		"""
 		This func. download the binary code of images
-		:return: img. binary object.
+		:return: img. binary object as {.jpg}.
 		"""
 		return urlopen( f"{self.image_server}{self.poster_path}").read()
 
 # ============================================================================== [FILE TEST SECTION {search_module.py}]
 
 if __name__ == '__main__':
-	searc_obj = tmdb.Search()
-	test = SearchModule(searc_obj)
+	search_obj = tmdb.Search()
+	test = SearchModule(search_obj)
+
 	print(test.search_movie('Alien'))
 	print(test.get_image_obj_in_binary())
-

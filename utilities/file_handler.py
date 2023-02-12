@@ -35,6 +35,7 @@ class Filehandler:
 	#  -------------------------------------------------------------------------------------------------- [CONSTRUCTOR]
 	def __init__(self):
 
+		# instance variables ...
 		self.__create_necessary_folder()
 		self.json_path = None # <-- Create poster_path variable
 		self.poster_path = None
@@ -72,8 +73,9 @@ class Filehandler:
 
 		# Loop with list comprehension:
 		movies = [item[:-4] for item in os.listdir(self.movies_folder_path) if item[-4:] == ".mkv"]
+		movies_with_extension = [item for item in os.listdir(self.movies_folder_path)]
 		print(len(movies))
-		return movies
+		return movies, movies_with_extension
 
 	# ------------------------------------------------------------------------------------------------------------------
 	def set_json_path(self, movie_name):
@@ -81,11 +83,16 @@ class Filehandler:
 		This func. set the path for {.json} files
 		:param movie_name: Incoming params from {movies[] lists}
 		                   from  get_data_from_movies_folder() func. in {metadata_postgres_downloader.py}
-		:return: jason_path
+		:return:           {movie_name.json} path
 		"""
 		self.json_path = os.path.join(self.metadata_folder_path, f"{movie_name}.json")
 
 	def write_json(self, data):
+		"""
+		This func. returns the {movie_name.json} file with metadata into the metadata folder
+		:param:  data
+		:return: {movie_name.json} file
+		"""
 		try:
 			if os.path.exists(self.json_path):
 				print(f"The file {self.json_path} is ALREADY Exists!")
@@ -94,7 +101,6 @@ class Filehandler:
 			with open(self.json_path, "w",  encoding = "utf-8") as f:
 				json.dump(data, f, ensure_ascii = False, indent = 4)
 
-
 		except Exception as e:
 			str(e)
 
@@ -102,6 +108,8 @@ class Filehandler:
 
 	def set_poster_path(self, movie_name):
 		"""
+		This func. returns the poster path of the downloaded poster of the movie from movies folder.
+
 		:param movie_name, self.poster_folder_path
 		:return: {movie_name}.jpg
 		"""
@@ -116,16 +124,50 @@ class Filehandler:
 			return False, str(e)
 		pass
 
+	def get_poster_location(self):
+		"""
+		:return: The poster path list from posters folder
+		"""
+
+		# ------------------------[ NORMAL LOOPS]-----------------------
+		# posters_name = os.listdir(self.poster_folder_path)
+
+		# for item in posters_name:
+		# 	poster_path_list.append(f'{self.poster_folder_path}\\{item}')
+		# ---------------------------------------------------------------
+		# Same as upper, but with list comprehension ...
+		# poster_path_list = [f'{self.poster_folder_path}\\{item}' for item in os.listdir(self.poster_folder_path)]
+
+		return [f'{self.poster_folder_path}\\{item}' for item in os.listdir(self.poster_folder_path)]
+
+
+	def get_movie_location(self):
+		"""
+		:return: The movie path list from movies folder
+		"""
+
+		# ------------------------[ NORMAL LOOP]-----------------------
+		# movie_name   = os.listdir(self.movies_folder_path)
+
+		# for item in movie_name:
+		# 	movie_path_list.append(f'{self.movies_folder_path}\\{item}')
+		# ---------------------------------------------------------------
+		# Same as upper, but with list comprehension ...
+		# movie_path_list = [f'{self.movies_folder_path}\\{item}' for item in os.listdir(self.movies_folder_path)]
+
+		return [f'{self.movies_folder_path}\\{item}' for item in os.listdir(self.movies_folder_path)]
+
 # =============================================================================== [FILE TEST SECTION {file_handler.py}]
 
 if __name__ == '__main__':
 
 	test = Filehandler()
-	# get movie folder content in a list!
-	movie_list = test.get_data_from_movies_folder()
-	print(movie_list)
-
-	# test write_jason func. ...
-	test.set_json_path(movie_name = 'Alien')   # <-- test_movie_name
-	test.write_json(data = {"movie": "alien"}) # <-- test_data
-
+	# # get movie folder content in a list!
+	# movie_list = test.get_data_from_movies_folder()
+	# print(movie_list)
+	#
+	# # test write_jason func. ...
+	# test.set_json_path(movie_name = 'Alien')   # <-- test_movie_name
+	# test.write_json(data = {"movie": "alien"}) # <-- test_data
+	print(test.get_poster_location())
+	print(test.get_movie_location())

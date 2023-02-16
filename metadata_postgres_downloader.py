@@ -27,24 +27,21 @@ def metadata_loader():
 	file_handler = Filehandler()
 	search       = SearchModule(search_obj)
 	postgres     = PostgresHandler()
+
 	# Get  movies[0] list length ...
 	movies       = file_handler.get_data_from_movies_folder()
-	cnt_movies   = len(movies[0])
+	cnt_movies   = len(file_handler.get_data_from_movies_folder()[0])
+
 	# Get length  of poster folder content list...
 	cnt_poster   = len(os.listdir(file_handler.poster_folder_path))
+
 	poster_name  = os.listdir(file_handler.poster_folder_path)
-
-	path = file_handler.get_poster_location()
-
-	# this loop deletes the poster, if the movie is not in movie folder ...
-	for idx, item in enumerate(poster_name):
-		if item[:-4] not in movies[0]:
-			os.remove(path[idx])
 
 	movies[1].reverse() # <-- add reversed movies name with extensions in a list in order to create movie path.
 
 	# Downolading-driver loop...
 	for item in movies[0]:
+
 		# pass that movies which have poster ...
 		if f'{item}.jpg' in poster_name:
 			pass
@@ -69,7 +66,18 @@ def metadata_loader():
 
 			postgres.insert_data(data) # <-- return data in database!
 
-		# Finally the app informs and counts the downloaded movie data ...
+		# Finally the app informs and counts the downloaded movie data ..
+	path = file_handler.get_poster_location()
+	# print(path) # <-- Debug only!
+
+	# this loop deletes the poster, if the movie is not in movie folder ...
+	for idx, item in enumerate(poster_name):
+		try:
+			if item[:-4] not in movies[0]:
+				os.remove(path[idx])
+		except Exception as e:
+			str(e)
+
 	if cnt_movies - cnt_poster <= 0:
 		print( "\n> There is no NEW image download, and metadata in PostgresSQL")
 	else:
@@ -78,8 +86,6 @@ def metadata_loader():
 	# print the finish message ...
 	print('\n> The {metadata_postgres_downloader.py} and the{file_handler.py} have been finished!')
 
-	ansver = input('would you like exit? :')
-	print(ansver)
 # =================================================================== [FILE TEST SECTION {metadate_file_downloader.py}]
 
 if __name__ =='__main__':

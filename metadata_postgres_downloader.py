@@ -65,7 +65,7 @@ def metadata_loader():
 
 			postgres.insert_data(data) # <-- return data in database!
 
-		# Finally the app informs and counts the downloaded movie data ..
+
 	path = file_handler.get_poster_location()
 	# print(path) # <-- Debug only!
 
@@ -77,6 +77,7 @@ def metadata_loader():
 		except Exception as e:
 			str(e)
 
+	# Finally the app informs and counts the downloaded movie data ..
 	if cnt_movies - cnt_poster <= 0:
 		print( "\n> There is no NEW image download, and metadata in PostgresSQL")
 	else:

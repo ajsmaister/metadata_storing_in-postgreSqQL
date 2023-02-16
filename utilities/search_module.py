@@ -35,6 +35,7 @@ class SearchModule:
 		self.poster_path = movie_meta[0]['poster_path']
 		return movie_meta[0]
 
+
 	def get_image_obj_in_binary(self):
 		"""
 		This func. download the binary code of images

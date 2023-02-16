@@ -118,7 +118,7 @@ VALUES(
 :genre_id
 )
 """
-
+# Data enrichment ...
 insert_location_table = """
 INSERT INTO data_location(
 id,

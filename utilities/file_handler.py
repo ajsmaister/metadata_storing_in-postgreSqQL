@@ -74,7 +74,6 @@ class Filehandler:
 		# Loop with list comprehension:
 		movies = [item[:-4] for item in os.listdir(self.movies_folder_path) if item[-4:] == ".mkv"]
 		movies_with_extension = [item for item in os.listdir(self.movies_folder_path)]
-		print(len(movies))
 		return movies, movies_with_extension
 
 	# ------------------------------------------------------------------------------------------------------------------
@@ -162,12 +161,12 @@ class Filehandler:
 if __name__ == '__main__':
 
 	test = Filehandler()
-	# # get movie folder content in a list!
-	# movie_list = test.get_data_from_movies_folder()
-	# print(movie_list)
-	#
-	# # test write_jason func. ...
-	# test.set_json_path(movie_name = 'Alien')   # <-- test_movie_name
-	# test.write_json(data = {"movie": "alien"}) # <-- test_data
+	# get movie folder content in a list!
+	movie_list = test.get_data_from_movies_folder()
+	print(movie_list)
+
+	# test write_jason func. ...
+	test.set_json_path(movie_name = 'Alien')   # <-- test_movie_name
+	test.write_json(data = {"movie": "alien"}) # <-- test_data
 	print(test.get_poster_location())
 	print(test.get_movie_location())

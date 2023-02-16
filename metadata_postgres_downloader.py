@@ -34,7 +34,6 @@ def metadata_loader():
 
 	# Get length  of poster folder content list...
 	cnt_poster   = len(os.listdir(file_handler.poster_folder_path))
-
 	poster_name  = os.listdir(file_handler.poster_folder_path)
 
 	movies[1].reverse() # <-- add reversed movies name with extensions in a list in order to create movie path.
